@@ -15,6 +15,7 @@ from shutil import copy2
 from sys import exit as sys_exit
 import datetime
 import os
+import subprocess
 
 try:
     from PIL import Image
@@ -278,7 +279,8 @@ def main():
                 exit_button_is_pressed = True
 
         if exit_button_is_pressed is not None:
-            return #Exit the photo booth
+            print('Sending to Printer')
+            subprocess.call("sudo sh process_image.sh", shell=True)
 
         if TESTMODE_AUTOPRESS_BUTTON:
             photo_button_is_pressed = True
