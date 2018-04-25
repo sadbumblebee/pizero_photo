@@ -280,6 +280,8 @@ def main():
 
         if exit_button_is_pressed is not None:
             print('Sending to Printer')
+            printing_image = REAL_PATH + "/assets/printing.png"
+            overlay_image(printing_image)
             subprocess.call("sudo sh process_image.sh", shell=True)
 
         if TESTMODE_AUTOPRESS_BUTTON:
