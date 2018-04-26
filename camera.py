@@ -283,8 +283,7 @@ def main():
             print('Sending to Printer')
             printing_image_path = REAL_PATH + "/assets/printing.png"
             overlay_printing = overlay_image(printing_image_path, 0, 5)
-            # subprocess.call("sudo sh process_image.sh", shell=True)
-            time.sleep(2)
+            subprocess.call("sudo sh process_image.sh", shell=True)
             print('Sent to Printer!')
             remove_overlay(overlay_printing)
 
