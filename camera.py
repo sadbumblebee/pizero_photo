@@ -14,6 +14,7 @@ from time import sleep
 from shutil import copy2
 from sys import exit as sys_exit
 import datetime
+import time
 import os
 import subprocess
 
@@ -280,9 +281,12 @@ def main():
 
         if exit_button_is_pressed is not None:
             print('Sending to Printer')
-            printing_image = REAL_PATH + "/assets/printing.png"
-            overlay_image(printing_image)
-            subprocess.call("sudo sh process_image.sh", shell=True)
+            printing_image_path = REAL_PATH + "/assets/printing.png"
+            overlay_printing = overlay_image(printing_image_path, 0, 5)
+            # subprocess.call("sudo sh process_image.sh", shell=True)
+            time.sleep(2)
+            print('Sent to Printer!')
+            remove_overlay(overlay_printing)
 
         if TESTMODE_AUTOPRESS_BUTTON:
             photo_button_is_pressed = True
