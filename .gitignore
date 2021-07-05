@@ -4,3 +4,4 @@ assets/._*
 ._*
 .*swp
 config.yaml
+.DS_Store

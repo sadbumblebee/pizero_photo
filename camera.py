@@ -269,80 +269,80 @@ def main():
     GPIO.add_event_detect(CAMERA_BUTTON_PIN, GPIO.FALLING)
     GPIO.add_event_detect(EXIT_BUTTON_PIN, GPIO.FALLING)
     for event in dev.read_loop():
-    while True:
-        photo_button_is_pressed = None
-        exit_button_is_pressed = None
+        while True:
+            photo_button_is_pressed = None
+            exit_button_is_pressed = None
 
-        for event in dev.read_loop():
-            if event.type == ecodes.EV_KEY:
-                print(categorize(event))
+            for event in dev.read_loop():
+                if event.type == ecodes.EV_KEY:
+                    print(categorize(event))
+                    photo_button_is_pressed = True
+
+    #        if GPIO.event_detected(CAMERA_BUTTON_PIN):
+    #            sleep(DEBOUNCE_TIME)
+    #            if GPIO.input(CAMERA_BUTTON_PIN) == 0:
+    #                photo_button_is_pressed = True
+
+    #        if GPIO.event_detected(EXIT_BUTTON_PIN):
+    #            sleep(DEBOUNCE_TIME)
+    #            if GPIO.input(EXIT_BUTTON_PIN) == 0:
+    #                exit_button_is_pressed = True
+
+            if exit_button_is_pressed is not None:
+                print('Sending to Printer')
+                printing_image_path = REAL_PATH + "/assets/printing.png"
+                overlay_printing = overlay_image(printing_image_path, 0, 5)
+                subprocess.call("sudo sh process_image.sh", shell=True)
+                print('Sent to Printer!')
+                remove_overlay(overlay_printing)
+
+            if TESTMODE_AUTOPRESS_BUTTON:
                 photo_button_is_pressed = True
 
-#        if GPIO.event_detected(CAMERA_BUTTON_PIN):
-#            sleep(DEBOUNCE_TIME)
-#            if GPIO.input(CAMERA_BUTTON_PIN) == 0:
-#                photo_button_is_pressed = True
+            #Stay inside loop, until button is pressed
+            if photo_button_is_pressed is None:
 
-#        if GPIO.event_detected(EXIT_BUTTON_PIN):
-#            sleep(DEBOUNCE_TIME)
-#            if GPIO.input(EXIT_BUTTON_PIN) == 0:
-#                exit_button_is_pressed = True
+                #After every 10 cycles, alternate the overlay
+                i = i+1
+                if i==blink_speed:
+                    overlay_2.alpha = 255
+                elif i==(2*blink_speed):
+                    overlay_2.alpha = 0
+                    i=0
 
-        if exit_button_is_pressed is not None:
-            print('Sending to Printer')
-            printing_image_path = REAL_PATH + "/assets/printing.png"
-            overlay_printing = overlay_image(printing_image_path, 0, 5)
-            subprocess.call("sudo sh process_image.sh", shell=True)
-            print('Sent to Printer!')
-            remove_overlay(overlay_printing)
+                #Regardless, restart loop
+                sleep(0.1)
+                continue
 
-        if TESTMODE_AUTOPRESS_BUTTON:
-            photo_button_is_pressed = True
+            #Button has been pressed!
+            print("Button pressed! You folks are in for a treat!")
 
-        #Stay inside loop, until button is pressed
-        if photo_button_is_pressed is None:
+            #Silence GPIO detection
+            GPIO.remove_event_detect(CAMERA_BUTTON_PIN)
+            GPIO.remove_event_detect(EXIT_BUTTON_PIN)
 
-            #After every 10 cycles, alternate the overlay
-            i = i+1
-            if i==blink_speed:
-                overlay_2.alpha = 255
-            elif i==(2*blink_speed):
-                overlay_2.alpha = 0
-                i=0
+            #Get filenames for images
+            filename_prefix = get_base_filename_for_images()
+            remove_overlay(overlay_2)
+            remove_overlay(overlay_1)
 
-            #Regardless, restart loop
-            sleep(0.1)
-            continue
+            for photo_number in range(1, TOTAL_PICS + 1):
+                prep_for_photo_screen(photo_number)
+                taking_photo(photo_number, filename_prefix)
 
-        #Button has been pressed!
-        print("Button pressed! You folks are in for a treat!")
+            #thanks for playing
+            playback_screen(filename_prefix)
 
-        #Silence GPIO detection
-        GPIO.remove_event_detect(CAMERA_BUTTON_PIN)
-        GPIO.remove_event_detect(EXIT_BUTTON_PIN)
+            # If we were doing a test run, exit here.
+            if TESTMODE_AUTOPRESS_BUTTON:
+                break
 
-        #Get filenames for images
-        filename_prefix = get_base_filename_for_images()
-        remove_overlay(overlay_2)
-        remove_overlay(overlay_1)
-
-        for photo_number in range(1, TOTAL_PICS + 1):
-            prep_for_photo_screen(photo_number)
-            taking_photo(photo_number, filename_prefix)
-
-        #thanks for playing
-        playback_screen(filename_prefix)
-
-        # If we were doing a test run, exit here.
-        if TESTMODE_AUTOPRESS_BUTTON:
-            break
-
-        # Otherwise, display intro screen again
-        overlay_1 = overlay_image(intro_image_1, 0, 3)
-        overlay_2 = overlay_image(intro_image_2, 0, 4)
-        GPIO.add_event_detect(CAMERA_BUTTON_PIN, GPIO.FALLING)
-        GPIO.add_event_detect(EXIT_BUTTON_PIN, GPIO.FALLING)
-        print("Press the button to take a photo")
+            # Otherwise, display intro screen again
+            overlay_1 = overlay_image(intro_image_1, 0, 3)
+            overlay_2 = overlay_image(intro_image_2, 0, 4)
+            GPIO.add_event_detect(CAMERA_BUTTON_PIN, GPIO.FALLING)
+            GPIO.add_event_detect(EXIT_BUTTON_PIN, GPIO.FALLING)
+            print("Press the button to take a photo")
 
 if __name__ == "__main__":
     try:
