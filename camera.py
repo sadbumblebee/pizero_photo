@@ -18,6 +18,10 @@ import time
 import os
 import subprocess
 
+#Touchscreen
+from evdev import InputDevice, categorize, ecodes
+dev = InputDevice('/dev/input/event0')
+
 try:
     from PIL import Image
     from ruamel import yaml
@@ -264,20 +268,25 @@ def main():
    #Use falling edge detection to see if button is being pushed in
     GPIO.add_event_detect(CAMERA_BUTTON_PIN, GPIO.FALLING)
     GPIO.add_event_detect(EXIT_BUTTON_PIN, GPIO.FALLING)
-
+    for event in dev.read_loop():
     while True:
         photo_button_is_pressed = None
         exit_button_is_pressed = None
 
-        if GPIO.event_detected(CAMERA_BUTTON_PIN):
-            sleep(DEBOUNCE_TIME)
-            if GPIO.input(CAMERA_BUTTON_PIN) == 0:
+        for event in dev.read_loop():
+            if event.type == ecodes.EV_KEY:
+                print(categorize(event))
                 photo_button_is_pressed = True
 
-        if GPIO.event_detected(EXIT_BUTTON_PIN):
-            sleep(DEBOUNCE_TIME)
-            if GPIO.input(EXIT_BUTTON_PIN) == 0:
-                exit_button_is_pressed = True
+#        if GPIO.event_detected(CAMERA_BUTTON_PIN):
+#            sleep(DEBOUNCE_TIME)
+#            if GPIO.input(CAMERA_BUTTON_PIN) == 0:
+#                photo_button_is_pressed = True
+
+#        if GPIO.event_detected(EXIT_BUTTON_PIN):
+#            sleep(DEBOUNCE_TIME)
+#            if GPIO.input(EXIT_BUTTON_PIN) == 0:
+#                exit_button_is_pressed = True
 
         if exit_button_is_pressed is not None:
             print('Sending to Printer')
