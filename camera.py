@@ -282,8 +282,8 @@ def main():
         #         photo_button_is_pressed = True
 
         if touch_event is not None:
-            photo_button_is_pressed = True
             touch_event = None
+            photo_button_is_pressed = True
 
 #        if GPIO.event_detected(CAMERA_BUTTON_PIN):
 #            sleep(DEBOUNCE_TIME)
