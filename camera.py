@@ -326,6 +326,7 @@ def main():
 
         #Overwrite the event
         touch_event = None
+        dev = InputDevice('/dev/input/event0')
         print(dev)
 
         #Silence GPIO detection
