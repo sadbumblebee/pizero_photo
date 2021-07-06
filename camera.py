@@ -97,7 +97,7 @@ CAMERA.rotation = CAMERA_ROTATION
 CAMERA.annotate_text_size = 80
 CAMERA.resolution = (PHOTO_W, PHOTO_H)
 CAMERA.hflip = CAMERA_HFLIP
-CAMERA.annotate_foreground = Color('black')
+CAMERA.annotate_foreground = picamera.Color('black')
 
 ####################
 ### Other Config ###
