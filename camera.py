@@ -97,6 +97,7 @@ CAMERA.rotation = CAMERA_ROTATION
 CAMERA.annotate_text_size = 80
 CAMERA.resolution = (PHOTO_W, PHOTO_H)
 CAMERA.hflip = CAMERA_HFLIP
+CAMERA.annotate_foreground = Color('black')
 
 ####################
 ### Other Config ###
@@ -274,7 +275,7 @@ def main():
             photo_button_is_pressed = None
             exit_button_is_pressed = None
 
-            if event.type == ecodes.EV_KEY:
+            if event.type == ecodes.EV_KEY and event.value == 0:
                 sleep(DEBOUNCE_TIME/2)
                 if event.type == ecodes.EV_KEY and event.value == 0:
                     print(categorize(event))
