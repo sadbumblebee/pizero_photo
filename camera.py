@@ -276,7 +276,7 @@ def main():
 
             if event.type == ecodes.EV_KEY:
                 sleep(DEBOUNCE_TIME)
-                if event.type == ecodes.EV_KEY:
+                if event.type == ecodes.EV_KEY and event.value == 0:
                     print(categorize(event))
                     photo_button_is_pressed = True
 
