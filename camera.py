@@ -273,11 +273,9 @@ def main():
         for event in dev.read_loop():
             photo_button_is_pressed = None
             exit_button_is_pressed = None
-            touch_event = dev.read_one()
-
-            if event.type == ecodes.EV_KEY:
-                dev.grab()
-                if event.type == ecodes.EV_KEY and event.value == 0:
+                
+            if event.type == ecodes.EV_KEY and event.value == 0:
+                    dev.grab()
                     print(categorize(event))
                     photo_button_is_pressed = True
 
