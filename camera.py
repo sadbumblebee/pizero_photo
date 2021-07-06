@@ -265,7 +265,7 @@ def main():
 
     #Wait for someone to push the button
     i = 0
-    blink_speed = 10
+    blink_speed = 1
 
    #Use falling edge detection to see if button is being pushed in
     GPIO.add_event_detect(CAMERA_BUTTON_PIN, GPIO.FALLING)
