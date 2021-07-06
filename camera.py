@@ -270,11 +270,11 @@ def main():
     GPIO.add_event_detect(CAMERA_BUTTON_PIN, GPIO.FALLING)
     GPIO.add_event_detect(EXIT_BUTTON_PIN, GPIO.FALLING)
     while True:
-        for event in dev.read_one():
+        for event in dev.read_loop():
             photo_button_is_pressed = None
             exit_button_is_pressed = None
 
-        if event.type == ecodes.EV_KEY and event.value == 1:
+        if event.type == ecodes.EV_KEY and event.value == 0:
             print(categorize(event))
             photo_button_is_pressed = True
 
