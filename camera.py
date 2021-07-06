@@ -273,10 +273,9 @@ def main():
             photo_button_is_pressed = None
             exit_button_is_pressed = None
 
-            for event in dev.read_loop():
-                if event.type == ecodes.EV_KEY:
-                    print(categorize(event))
-                    photo_button_is_pressed = True
+            if event.type == ecodes.EV_KEY:
+                print(categorize(event))
+                photo_button_is_pressed = True
 
     #        if GPIO.event_detected(CAMERA_BUTTON_PIN):
     #            sleep(DEBOUNCE_TIME)
