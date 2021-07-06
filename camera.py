@@ -25,6 +25,7 @@ dev = InputDevice('/dev/input/event0')
 async def helper(dev):
     async for ev in dev.async_read_loop():
         print(repr(ev))
+        photo_button_is_pressed = True
 
 try:
     from PIL import Image
