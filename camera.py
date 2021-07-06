@@ -281,7 +281,7 @@ def main():
         #         print(categorize(event))
         #         photo_button_is_pressed = True
 
-        if touch_event is not None:
+        if touch_event is not None and touch_event.value == 1:
             print(categorize(touch_event))
             photo_button_is_pressed = True
 
