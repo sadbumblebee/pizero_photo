@@ -326,7 +326,7 @@ def main():
 
         #Overwrite the event
         touch_event = None
-        print(touch_event)
+        print(dev)
 
         #Silence GPIO detection
         GPIO.remove_event_detect(CAMERA_BUTTON_PIN)
