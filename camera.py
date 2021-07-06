@@ -273,6 +273,7 @@ def main():
         # for event in dev.read_loop():
         photo_button_is_pressed = None
         exit_button_is_pressed = None
+        dev = InputDevice('/dev/input/event0')
         touch_event = dev.read_one()
 
         # if event.type == ecodes.EV_KEY:
