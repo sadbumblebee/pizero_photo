@@ -282,6 +282,7 @@ def main():
         #         photo_button_is_pressed = True
 
         if touch_event is not None:
+            print(categorize(touch_event))
             photo_button_is_pressed = True
 
 #        if GPIO.event_detected(CAMERA_BUTTON_PIN):
@@ -325,6 +326,7 @@ def main():
 
         #Overwrite the event
         touch_event = None
+        print(touch_event)
 
         #Silence GPIO detection
         GPIO.remove_event_detect(CAMERA_BUTTON_PIN)
