@@ -280,6 +280,7 @@ def main():
                 if event.type == ecodes.EV_KEY and event.value == 0:
                     print(categorize(event))
                     photo_button_is_pressed = True
+                    break
 
             # if touch_event is not None and touch_event.value == 1:
             #     print(categorize(touch_event))
